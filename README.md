@@ -1,10 +1,8 @@
-﻿# Task_analyzer-Assignment-
+Task Analyzer — Backend (Django + REST API + Priority Algorithm)
 
-Smart Task Analyzer Backend (Django + REST API + Priority Algorithm)
+A backend system that intelligently analyzes tasks based on urgency, importance, effort & dependencies, helping users decide which tasks should be completed first.
 
-A backend system that intelligently analyzes tasks using urgency, effort, importance & dependencies to recommend what to work on first.
-
-It focuses on priority scoring + smart task selection, matching assignment requirements.
+This backend is built as per assignment requirements, focusing on priority scoring + smart task ranking.
 
 🚀 Tech Stack
 
@@ -14,22 +12,25 @@ Python 3.8+
 
 Custom scoring algorithm
 
-Unit-tested logic
+Unit-tested priority logic
 
-No authentication & no DB storage required (as per assignment)
+No authentication / No permanent DB storage (as required)
 
 🧠 Core Features
-Feature	Method	Endpoint	Auth?
-Analyze task priority & return sorted list	POST	/api/tasks/analyze/	❌
-Get Top 3 tasks with reasoning	POST	/api/tasks/suggest/	❌
-JSON bulk task processing	✔ Supports	—	❌
-Custom scoring logic (weighted)	✔ Included	—	🔥
-Unit tests for scoring reliability	✔ Provided	—	🧪
-📡 API Details
-🔷 1. Analyze Tasks (Scoring + Sorting)
+Feature	Method	Endpoint	Auth	Status
+Analyze & return prioritized tasks	POST	/api/tasks/analyze/	❌	✔
+Get top 3 recommended tasks	POST	/api/tasks/suggest/	❌	✔
+Bulk JSON task processing	—	Supported	❌	✔
+Custom weighted priority scoring	—	—	—	🔥
+Unit tests for algorithm behavior	—	tests.py	—	🧪
+📡 API Endpoints & Usage
+🔹 1. Analyze & Score Tasks
+
+Returns all tasks sorted by priority score.
+
 POST /api/tasks/analyze/
 
-Request Body (Array of Tasks)
+Example Request
 [
   {
     "id": 1,
@@ -41,7 +42,7 @@ Request Body (Array of Tasks)
   }
 ]
 
-Response (Sorted by score ↓)
+Response
 [
   {
     "id": 1,
@@ -50,59 +51,58 @@ Response (Sorted by score ↓)
     "estimated_hours": 3,
     "importance": 8,
     "dependencies": [],
-    "score": 82.0
+    "score": 82.5
   }
 ]
 
-🔷 2. Suggest Top 3 Tasks (With Explanation)
+🔹 2. Suggest Top 3 Tasks
+
+Returns best 3 with explanation for each.
+
 POST /api/tasks/suggest/
 
-Response Format:
+Example Response
 [
   {
     "title": "Fix login bug",
     "score": 92.0,
-    "reason": "high importance, overall high priority score"
+    "reason": "High importance, approaching deadline"
   },
   {
-    "title": "Optimize database queries",
-    "score": 78.0,
-    "reason": "quick win"
+    "title": "Optimize DB query",
+    "score": 79.0,
+    "reason": "Quick win, low effort"
   }
 ]
 
-🔥 Task Priority Algorithm
+🧩 Priority Scoring System
+Factor	Weight	Meaning
+Urgency	0–40	Based on deadline, overdue = max priority
+Importance	0–30	Direct scale ×3
+Quick Win (Effort)	0–10	Fewer hours = more score
+Dependencies	0–20	If other tasks depend on it → boost
 
-The algorithm weights tasks into a single priority score out of 100.
+📌 Final formula:
 
-Factor	Max Score	Logic
-Urgency	40	Sooner & overdue tasks score higher
-Importance	30	Scaled (importance ×3)
-Effort (Quick Wins)	10	Less hours → more priority
-Dependencies	20	If others depend on it → boost
+score = urgency + importance + effort_bonus + dependency_weight
 
-📌 Final Score
+🧪 Unit Testing
 
-score = urgency + importance + quick-win effort + dependency weight
-
-🧪 Unit Tests Included
-
-tasks/tests.py
-
-Covers:
-
-Test	Expected Behavior
-Urgent tasks scored higher	Near due date = priority boost
-Quick tasks get preference	Fewer hours = higher score
-Dependency chain increases rank	Blocker tasks > non-blocker
-
-Run all tests:
+Run all test cases:
 
 python manage.py test
 
-🔧 Setup & Run Instructions
+
+Test coverage includes:
+
+✔ Urgency influence
+✔ Quick task preference
+✔ Dependency weighting
+✔ Balanced scoring outcome
+
+🛠 Setup Instructions
 cd task-analyzer/backend
-venv\Scripts\activate       # or source venv/bin/activate (Mac/Linux)
+venv\Scripts\activate          # or source venv/bin/activate
 pip install -r requirements.txt
 python manage.py runserver
 
@@ -110,14 +110,3 @@ python manage.py runserver
 Server runs at:
 
 http://127.0.0.1:8000/
-
-
-Use Postman / Thunder Client to test endpoints.
-
-🏁 Project Status
-Component	Status
-Backend REST API	✔
-Priority Algorithm	✔
-Suggestion Engine	✔
-Unit Tests	✔
-Ready for Frontend Integration	🔥
