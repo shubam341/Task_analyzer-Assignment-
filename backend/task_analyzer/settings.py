@@ -119,7 +119,11 @@ SECRET_KEY = "django-insecure-5)e7kh(+wl3+zko03j^t@cn*6$lb665gqp2h$0v@2e*qs_sl__
 DEBUG = True  # make False after deployment
 
 # ⭐ For Render Deployment
-ALLOWED_HOSTS = ["*", "yourrender.onrender.com"]  # change after deploy URL
+ALLOWED_HOSTS = [
+    "*",
+    "task-analyzer.onrender.com",  # change after deploy URL created
+]
+
 
 INSTALLED_APPS = [
     "django.contrib.admin",
