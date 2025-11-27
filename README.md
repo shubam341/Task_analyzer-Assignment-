@@ -22,6 +22,33 @@ Task Analyzer is an AI-assisted task ranking system that analyzes work items bas
 
 It automatically ranks tasks and highlights **the MOST important one to work on right now.**
 
+Design Decisions & Trade-offs
+
+To balance simplicity, speed, and functionality, several intentional design decisions were made:
+
+| Decision                                          | Reason                                                                |
+| ------------------------------------------------- | --------------------------------------------------------------------- |
+| Weighted scoring instead of single-factor sorting | Allows real-world priority behaviour instead of simple sorting        |
+| Smart Balance as default                          | Best mix of urgency, effort & importance for normal workday decisions |
+| Boost priority for dependency-heavy tasks         | Completing them unlocks future progress faster                        |
+| Circular dependency detection                     | Prevent infinite scoring loops or biased scoring                      |
+| Tailwind + Vanilla JS UI                          | Fast execution for assignment without heavy framework overhead        |
+| JSON + Form input together                        | Allows developers & normal users both to test easily                  |
+
+ Trade-off: A full React frontend or ML-based weighting system was avoided intentionally to stay within assignment scope and deliver speed + clarity over complexity.
+
+
+ 🔷 Development Time Breakdown (as required)
+ | Work Item                             | Time Spent        |
+| ------------------------------------- | ----------------- |
+| Backend setup + scoring logic         | ~1 hr 30 mins     |
+| Priority modes + dependency handling  | ~45 mins          |
+| Frontend UI (form, cards, sorting UI) | ~1 hr             |
+| Testing + debugging API flow          | ~30 mins          |
+| README documentation                  | ~20 mins          |
+| **Total Approx Work Time**            | **~3 hr 55 mins** |
+
+
 ---
 
 <br>
@@ -178,4 +205,5 @@ Future Improvements
  Task reminder notification engine
  Weekend/holiday smart date calculation
  UI Kanban + drag-drop task flow
+
 
