@@ -22,9 +22,9 @@ Task Analyzer is an AI-assisted task ranking system that analyzes work items bas
 
 It automatically ranks tasks and highlights **the MOST important one to work on right now.**
 
-Design Decisions & Trade-offs
 
-To balance simplicity, speed, and functionality, several intentional design decisions were made:
+ 🔷Design Decisions & Trade-offs
+    To balance simplicity, speed, and functionality, several intentional design decisions were made:
 
 | Decision                                          | Reason                                                                |
 | ------------------------------------------------- | --------------------------------------------------------------------- |
@@ -36,6 +36,7 @@ To balance simplicity, speed, and functionality, several intentional design deci
 | JSON + Form input together                        | Allows developers & normal users both to test easily                  |
 
  Trade-off: A full React frontend or ML-based weighting system was avoided intentionally to stay within assignment scope and deliver speed + clarity over complexity.
+
 
 
  🔷 Development Time Breakdown (as required)
@@ -205,5 +206,6 @@ Future Improvements
  Task reminder notification engine
  Weekend/holiday smart date calculation
  UI Kanban + drag-drop task flow
+
 
 
