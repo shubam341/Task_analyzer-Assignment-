@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Task Analyzer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            animation: {
+              'fade-in': 'fadeIn 0.5s ease-in-out',
+              'slide-up': 'slideUp 0.4s ease-out',
+              'scale-in': 'scaleIn 0.3s ease-out'
+            },
+            keyframes: {
+              fadeIn: {
+                '0%': { opacity: '0' },
+                '100%': { opacity: '1' }
+              },
+              slideUp: {
+                '0%': { transform: 'translateY(20px)', opacity: '0' },
+                '100%': { transform: 'translateY(0)', opacity: '1' }
+              },
+              scaleIn: {
+                '0%': { transform: 'scale(0.95)', opacity: '0' },
+                '100%': { transform: 'scale(1)', opacity: '1' }
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <meta property="og:image" content="https://bolt.new/static/og_default.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://bolt.new/static/og_default.png">
+</head>
+  
+<body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+
+  <!-- Navbar -->
+  <nav class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex justify-between items-center">
+
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-xl font-bold text-gray-900 dark:text-white">Smart Task Analyzer</h1>
+          <p class="text-xs text-gray-500 dark:text-gray-400">Intelligent Priority Management</p>
+        </div>
+      </div>
+
+      <button id="theme-toggle" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+        <svg id="theme-icon-light" class="hidden dark:block w-6 h-6 text-gray-700 dark:text-gray-200"
+             fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M20 15.354A9 9 0 118.646 3.646 9 9 0 0020 15.354z"/>
+        </svg>
+
+        <svg id="theme-icon-dark" class="block dark:hidden w-6 h-6 text-gray-700 dark:text-gray-200"
+             fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707
+                M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+        </svg>
+      </button>
+
+    </div>
+  </nav>
+
+  <!-- MAIN LAYOUT → INPUT + RESULTS + SIDEBAR -->
+  <main class="max-w-7xl mx-auto mt-8 flex gap-6 px-4 sm:px-6 lg:px-8">
+
+    <!-- MAIN CONTENT -->
+    <section class="w-3/4 space-y-8">
+
+      <!-- Task Input Section -->
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 animate-fade-in">
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Add New Task</h2>
+
+        <form id="task-form" class="space-y-6">
+          <div class="grid md:grid-cols-2 gap-6">
+
+            <!-- Title -->
+            <div class="relative">
+              <input type="text" id="task-title" required
+                class="peer w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg 
+                       focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-transparent"
+                placeholder="Task Title" />
+              <label for="task-title"
+                class="absolute left-3 -top-2 bg-white dark:bg-gray-800 px-2 text-gray-500 peer-focus:text-blue-500">
+                Task Title *
+              </label>
+            </div>
+
+            <!-- Due Date -->
+            <div class="relative">
+              <input type="date" id="task-due-date" required
+                class="peer w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg
+                       bg-white dark:bg-gray-700 text-gray-900 dark:text-white" />
+              <label for="task-due-date"
+                class="absolute left-3 -top-2 bg-white dark:bg-gray-800 px-2 text-gray-500">
+                Due Date *
+              </label>
+            </div>
+
+            <!-- Hours -->
+            <div class="relative">
+              <input type="number" id="task-hours" min="0.5" step="0.5" value="1" required
+                class="peer w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg
+                       bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-transparent" />
+              <label class="absolute left-3 -top-2 bg-white dark:bg-gray-800 px-2 text-gray-500">
+                Estimated Hours *
+              </label>
+            </div>
+
+            <!-- Dependencies -->
+            <div class="relative">
+              <input type="text" id="task-dependencies"
+                class="peer w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg
+                       bg-white dark:bg-gray-700 text-gray-900 dark:text-white" />
+              <label class="absolute left-3 -top-2 bg-white dark:bg-gray-800 px-2 text-gray-500">
+                Dependencies (comma separated)
+              </label>
+            </div>
+
+          </div>
+
+          <!-- Importance Slider -->
+          <div>
+            <div class="flex justify-between">
+              <label class="text-gray-700 dark:text-gray-300">Importance</label>
+              <span id="importance-value" class="text-xl font-bold text-blue-500">5</span>
+            </div>
+            <input id="task-importance" type="range" min="1" max="10" value="5"
+              class="w-full h-3 bg-gray-200 dark:bg-gray-600 rounded-lg cursor-pointer" />
+          </div>
+
+          <div class="flex gap-3">
+            <button type="submit"
+              class="flex-1 bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-700">
+              Add Task
+            </button>
+            <button type="button" id="bulk-input-toggle"
+              class="bg-gray-600 text-white px-6 rounded-lg hover:bg-gray-700">
+              Bulk JSON
+            </button>
+          </div>
+
+        </form>
+
+        <!-- Bulk JSON -->
+        <div id="bulk-input-section" class="hidden mt-5">
+          <textarea id="bulk-json-input" rows="6"
+            class="w-full px-4 py-3 border rounded-lg dark:bg-gray-700 dark:text-white font-mono"
+            placeholder='[{"title":"Task A","due_date":"2025-12-01","estimated_hours":2,"importance":8}]'></textarea>
+          <button id="load-bulk-btn" class="mt-2 bg-green-600 text-white px-4 py-2 rounded-lg">
+            Load JSON Tasks
+          </button>
+        </div>
+      </div>
+
+      <!-- Task List -->
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 animate-fade-in">
+        <div class="flex justify-between mb-6">
+          <h2 class="text-2xl font-bold dark:text-white">Your Tasks (<span id="task-count">0</span>)</h2>
+          <button id="analyze-btn" abled
+                  class="bg-blue-600 text-white px-8 py-3 rounded-lg disabled:bg-gray-500">
+            Analyze Tasks
+          </button>
+        </div>
+
+        <div id="task-list" class="space-y-3">
+          <div id="empty-state" class="text-center py-10 text-gray-500 dark:text-gray-400">
+            No tasks yet — add one above
+          </div>
+        </div>
+      </div>
+
+      <!-- Results -->
+      <div id="results-section" class="hidden">
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-4 mb-6">
+          <select id="sort-strategy" class="px-4 py-2 dark:bg-gray-700 dark:text-white border rounded-lg">
+            <option value="smart">Smart Recommended</option>
+            <option value="fastest">Fastest</option>
+            <option value="impact">High Impact</option>
+            <option value="deadline">Deadline First</option>
+          </select>
+        </div>
+
+        <div id="results-grid"
+             class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      </div>
+
+      <div id="loading-state" class="hidden text-center p-8 dark:bg-gray-800 rounded-xl">
+        <div class="animate-spin border-4 border-blue-500 w-14 h-14 mx-auto rounded-full border-t-transparent"></div>
+      </div>
+
+    </section>
+
+    <!-- Recommendation Sidebar -->
+<aside id="recommendation-panel"
+       class="w-1/4 bg-white dark:bg-gray-800 shadow-xl rounded-xl p-5 h-fit sticky top-6 animate-fade-in">
+
+    <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3">🔮 Smart Recommendations</h2>
+
+    <!-- This box will show ONLY the top task -->
+    <div id="recommendation-box"
+         class="p-4 rounded-lg bg-gray-900/90 text-white border border-gray-700">
+        <p class="text-gray-300">⚡ Analyze tasks to get your best next step.</p>
+    </div>
+</aside>
+
+
+  </main>
+
+  <script type="module" src="/script.js"></script>
+</body>
+</html>
