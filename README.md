@@ -3,6 +3,8 @@
 # 🚀 TASK ANALYZER — Smart Task Prioritization System  
 ### AI-Powered Ranking • Deadline Awareness • Productivity Booster
 
+#  Priority Scoring Algorithm
+  ### The scoring engine of Task Analyzer is built to mimic real-world decision making where urgency, impact, effort, and dependencies influence which task should be done first. Instead of ranking based on a single factor, the algorithm evaluates each task using a weighted multi-factor formula.
 </div>
 
 ---
@@ -57,8 +59,38 @@ It automatically ranks tasks and highlights **the MOST important one to work on 
 
 <br>
 
+ Core Logic Used
+ Each task is evaluated using:
+ | Factor                    | Why It Matters                                |
+| ------------------------- | --------------------------------------------- |
+| ⏳ Urgency (Due Date)      | Tasks closer to deadline get higher score     |
+| ⭐ Importance (1–10)       | Defines overall impact of task                |
+| ⚡ Effort (Hours Required) | Lower effort tasks give faster progress boost |
+| 🔗 Dependencies           | Tasks blocking others get priority boost      |
 
 
+Scoring Formula:
+ urgency_score = max(0, (10 - days_left)) * 1.5  
+importance_score = importance * 2  
+effort_score = 10 / (estimated_hours + 1) * 1.2  
+dependency_score = len(dependencies) * 2  
+
+final_score = urgency_score + importance_score + effort_score + dependency_score
+
+
+Sorting Modes Logic
+| Mode            | Logic                                             |
+| --------------- | ------------------------------------------------- |
+| Fastest Wins    | Sort by lowest estimated_hours first              |
+| High Impact     | Sort by importance descending                     |
+| Deadline Driven | Sorted by nearest due date                        |
+| Smart Balance ⭐ | Uses final_score above (default recommended view) |
+
+Smart Balance is the most optimal because it doesn’t focus on only one category — it dynamically balances effort, urgency, and impact to give the best next action.
+
+Tasks past their due dates get urgency multiplier boost making them highly prioritized. Circular dependencies are detected by graph-traversal check and such tasks are flagged and excluded from priority bounce-loop to avoid infinite recursion.
+
+This algorithm is flexible and can later support ML ranking, custom weights, work patterns, learning feedback etc.
 ---
 
 <br>
@@ -139,4 +171,11 @@ Example Output Preview
 │ ├── style.css # Optional custom styling
 │
 └── README.md
+
+Future Improvements
+ ML-based ranking adapting user behaviour
+ Eisenhower 2D Grid visualization (Urgent vs Important)
+ Task reminder notification engine
+ Weekend/holiday smart date calculation
+ UI Kanban + drag-drop task flow
 
